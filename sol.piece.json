@@ -1,7 +1,7 @@
 {
   "spec": "sol-piece/0.1-draft",
   "piece": "selvrens",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "names": { "no": "Selvrens", "en": "Selvrens" },
   "summary": {
     "no": "Kartlegger ditt digitale jeg: kontoene dine, lekkasjene og det du viser offentlig, og hjelper deg å rydde.",
@@ -10,7 +10,8 @@
   "kind": "tool",
   "mode": "standalone",
   "home": "https://selvrens.no",
-  "source": "https://github.com/Artum-founder/Selvrens",
+  "license": "AGPL-3.0-only",
+  "source": "https://github.com/Artum-founder/selvrens",
   "data": {
     "storage": "local-only",
     "leavesDevice": [

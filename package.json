@@ -1,7 +1,8 @@
 {
   "name": "selvrens",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
+  "license": "AGPL-3.0-only",
   "description": "Selvrens: map your whole digital self (accounts, leaks, public presence) and clean it up. Local-first, no account, no tracking.",
   "type": "module",
   "engines": { "node": ">=20" },

@@ -211,6 +211,41 @@ table.tbl { border-collapse: collapse; width: 100%; font-size: .88rem; }
 .tbl th, .tbl td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
 .tbl th { color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; }
 
+/* How-to box: the three things to do on this page, always at the top */
+.howto { background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent); border-radius: var(--r); padding: 14px 18px; display: grid; gap: 8px; max-width: 78ch; }
+.howto > b { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.howto ol { margin: 0; padding: 0; list-style: none; counter-reset: h; display: grid; gap: 6px; }
+.howto li { counter-increment: h; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; align-items: baseline; }
+.howto li::before { content: counter(h); display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font: 700 .78rem var(--mono); transform: translateY(-1px); }
+.steps-plain { margin: 0; padding-left: 1.3em; display: grid; gap: 4px; font-size: .9rem; }
+.steps-plain li::marker { color: var(--accent); font-weight: 700; }
+
+/* Journey: one clear path, one "next step" button */
+.journey { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 18px; }
+.journey-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 14px; }
+.journey-head > .stack { max-width: 62ch; }
+.btn.big { padding: 11px 18px; font-size: 1rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 14px; }
+.grid-4 > * { min-width: 0; }
+.parts { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.jsteps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 8px; }
+.jsteps a { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--r-s); text-decoration: none; color: var(--ink); background: var(--bg); height: 100%; font-size: .9rem; line-height: 1.3; }
+.jsteps a:hover { border-color: var(--accent); }
+.jn { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--line); font: 700 .8rem var(--mono); color: var(--muted); }
+.jsteps li.done .jn { background: var(--ok); border-color: var(--ok); color: var(--bg); }
+.jsteps li.done .jt { color: var(--muted); }
+.jsteps li.now a { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 1px var(--accent) inset; }
+.jsteps li.now .jn { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Why: a short numbered essay */
+.why { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.why-part { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 18px; padding-block: 26px; border-bottom: 1px solid var(--line); }
+.why-part h2 { font-size: 1.6rem; }
+.why-part .prose p { font-size: 1.04rem; }
+.why-n { font: 600 2.2rem/1 var(--serif); color: var(--accent); }
+@media (max-width: 640px) { .why-part { grid-template-columns: 1fr; gap: 8px; } .why-n { font-size: 1.6rem; } }
+
 /* Small screens: the module nav gets its own row */
 @media (max-width: 640px) {
   .top-in { flex-wrap: wrap; row-gap: 6px; }
