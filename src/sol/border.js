@@ -14,7 +14,7 @@ import { cachedCatalogue } from "../core/leaks.js";
 import { uid, debounce, domainOf } from "../core/util.js";
 import { lookup } from "../data/services.js";
 
-export const PIECE = { id: "selvrens", version: "0.1.0", spec: "sol-piece/0.1-draft" };
+export const PIECE = { id: "selvrens", version: "0.2.0", spec: "sol-piece/0.1-draft" };
 const ENV = (type, payload) => ({ sol: "0.1", piece: PIECE.id, type, payload });
 
 const bonds = () => getState().settings.bonds || [];

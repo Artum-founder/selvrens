@@ -7,10 +7,12 @@ import * as kart from "./pieces/kart.js";
 import * as kontoer from "./pieces/kontoer.js";
 import * as lekkasjer from "./pieces/lekkasjer.js";
 import * as synlighet from "./pieces/synlighet.js";
+import * as data from "./pieces/data.js";
 import * as rens from "./pieces/rens.js";
+import * as hvorfor from "./pieces/hvorfor.js";
 import * as innstillinger from "./pieces/innstillinger.js";
 
-export const PIECES = [kart, kontoer, lekkasjer, synlighet, rens, innstillinger];
+export const PIECES = [kart, kontoer, lekkasjer, synlighet, data, rens, hvorfor, innstillinger];
 
 const main = document.getElementById("main");
 let current = null;
@@ -46,7 +48,7 @@ function renderFoot() {
     <span>${tr("Ingen konto. Ingen sporing. Ingen informasjonskapsler.", "No account. No tracking. No cookies.")}</span></div>
     <div class="foot-row">
       <span>${tr("SOL-brikke", "SOL piece")} ${esc(PIECE.version)} · ${bonds ? tr(`${bonds} bånd`, `${bonds} bond(s)`) : tr("frittstående", "standalone")}${s.settings.lifted ? tr(" · løftet for reparasjon", " · lifted for repair") : ""}</span>
-      <a href="https://github.com/Artum-founder/Selvrens" rel="noopener">${tr("Åpen kildekode", "Open source")}</a>
+      <a href="https://github.com/Artum-founder/selvrens" rel="noopener">${tr("Åpen kildekode", "Open source")} (AGPL-3.0)</a>
       <span>${tr("Lekkasjedata", "Breach data")}: <a href="https://haveibeenpwned.com/" rel="noopener">Have I Been Pwned</a> (CC BY 4.0), <a href="https://xposedornot.com/" rel="noopener">XposedOrNot</a></span>
     </div></div>`;
 }

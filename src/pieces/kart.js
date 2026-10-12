@@ -9,12 +9,46 @@ import { CATEGORIES } from "../data/services.js";
 export const meta = { path: "", title: { no: "Kart", en: "Map" } };
 
 const PIECES = [
-  { n: 1, path: "kontoer", t: { no: "Kontoer", en: "Accounts" }, d: { no: "Alle stedene du har en innlogging: fra passordbehandleren, innboksen og «logg inn med».", en: "Every place you have a login: from your password manager, your inbox and «sign in with»." } },
+  { n: 1, path: "kontoer", t: { no: "Kontoer", en: "Accounts" }, d: { no: "Alle stedene du har en innlogging: fra «logg inn med Google/Apple/Microsoft», passordbehandleren og innboksen.", en: "Every place you have a login: from «sign in with Google/Apple/Microsoft», your password manager and your inbox." } },
   { n: 2, path: "lekkasjer", t: { no: "Lekkasjer", en: "Leaks" }, d: { no: "Hvilke av tjenestene dine som er hacket, om e-posten din er lekket, og om passordene dine er kjent.", en: "Which of your services were breached, whether your email leaked, and whether your passwords are known." } },
   { n: 3, path: "synlighet", t: { no: "Synlighet", en: "Visibility" }, d: { no: "Det du viser offentlig, konto for konto, og bildet det blir når alt legges sammen.", en: "What you show in public, account by account, and the picture it makes all together." } },
-  { n: 4, path: "", t: { no: "Kart", en: "Map" }, d: { no: "Hele ditt digitale jeg på én side, med det viktigste å gjøre først.", en: "Your whole digital self on one page, with the most important thing to do first." } },
+  { n: 4, path: "data", t: { no: "Dine data", en: "Your data" }, d: { no: "Be Google, Meta, Apple og de andre om en kopi av alt de har lagret om deg.", en: "Ask Google, Meta, Apple and the others for a copy of everything they hold on you." } },
   { n: 5, path: "rens", t: { no: "Rens", en: "Clean up" }, d: { no: "Guider, ferdige GDPR-brev og lenkene som skrur av sporing.", en: "Guides, ready GDPR letters and the links that switch off tracking." } },
+  { n: 0, path: "hvorfor", t: { no: "Hvorfor", en: "Why" }, d: { no: "AI, profilen som allerede finnes, og hvorfor det fortsatt lønner seg å rydde.", en: "AI, the profile that already exists, and why cleaning up still pays off." } },
 ];
+
+// The journey: one clear path through Selvrens. The first step that is not done is "now".
+const STEPS = [
+  { href: "#/kontoer", t: { no: "Finn kontoene dine", en: "Find your accounts" }, d: { no: "Se hvor du har logget inn med Google, Apple og Microsoft, og hent resten fra passordbehandleren.", en: "See where you signed in with Google, Apple and Microsoft, and pull in the rest from your password manager." }, done: (s) => s.accounts.length > 0 },
+  { href: "#/lekkasjer", t: { no: "Sjekk lekkasjer", en: "Check for leaks" }, d: { no: "Skriv inn e-posten din og se hvilke datainnbrudd den er med i.", en: "Type your email and see which data breaches it is part of." }, done: (s) => (s.checks.email || []).length > 0 },
+  { href: "#/synlighet", t: { no: "Se hva du viser", en: "See what you show" }, d: { no: "Søk opp deg selv, og kryss av hva en fremmed kan se på hver konto.", en: "Search for yourself, and tick what a stranger can see on each account." }, done: (s, an) => an.accts.some((a) => a.visChecked) },
+  { href: "#/kontoer", t: { no: "Bestem for hver konto", en: "Decide for each account" }, d: { no: "Behold, rydd eller slett. Ett trykk per konto.", en: "Keep, tidy or delete. One tap per account." }, done: (s, an) => an.accts.length > 0 && an.unreviewed.length === 0 },
+  { href: "#/rens", t: { no: "Rydd opp", en: "Clean up" }, d: { no: "Slett det du ikke vil ha. Guider og ferdige brev hjelper deg.", en: "Delete what you don't want. Guides and ready letters help you." }, done: (s, an) => an.accts.length > 0 && an.unreviewed.length === 0 && an.toDelete.length === 0 },
+  { href: "#/data", optional: true, t: { no: "Hent dataene dine", en: "Get your data" }, d: { no: "Valgfritt: be om en kopi av alt de store har lagret om deg.", en: "Optional: ask for a copy of everything the big ones hold on you." }, done: (s) => (s.done.download || []).length > 0 },
+];
+
+function journey(an) {
+  const s = getState();
+  const st = STEPS.map((x) => x.done(s, an));
+  const now = st.findIndex((d, i) => !d && !STEPS[i].optional);
+  const nowOpt = now === -1 ? st.findIndex((d) => !d) : now;
+  const cur = nowOpt === -1 ? null : STEPS[nowOpt];
+  const count = st.filter(Boolean).length;
+  return `<section class="journey" aria-labelledby="j-h">
+    <div class="journey-head">
+      <div class="stack">
+        <p class="eyebrow">${tr("Din vei gjennom Selvrens", "Your path through Selvrens")} · ${count}/${STEPS.length}</p>
+        <h2 id="j-h">${cur ? `${tr("Steg", "Step")} ${nowOpt + 1}: ${esc(pick(cur.t))}` : tr("Alt er gjort. Bra jobbet.", "All done. Well done.")}</h2>
+        <p class="muted">${cur ? esc(pick(cur.d)) : tr("Kom tilbake om et halvt år. Nye kontoer og nye lekkasjer dukker opp hele tiden.", "Come back in six months. New accounts and new leaks turn up all the time.")}</p>
+      </div>
+      <div class="row">${cur ? `<a class="btn big" href="${cur.href}">${count ? tr("Neste steg", "Next step") : tr("Start her", "Start here")} →</a>` : `<a class="btn big" href="#/lekkasjer">${tr("Sjekk lekkasjer på nytt", "Check leaks again")}</a>`}<a class="btn quiet" href="#/hvorfor">${tr("Hvorfor gjøre dette?", "Why do this?")}</a></div>
+    </div>
+    <ol class="jsteps">${STEPS.map((x, i) => `<li class="${st[i] ? "done" : i === nowOpt ? "now" : ""}"><a href="${x.href}" ${i === nowOpt ? 'aria-current="step"' : ""}>
+      <span class="jn" aria-hidden="true">${st[i] ? "✓" : i + 1}</span>
+      <span class="jt">${esc(pick(x.t))}${x.optional ? ` <span class="muted small">(${tr("valgfritt", "optional")})</span>` : ""}<span class="sr">${st[i] ? tr(" (gjort)", " (done)") : ""}</span></span>
+    </a></li>`).join("")}</ol>
+  </section>`;
+}
 
 let unsub = [];
 
@@ -22,7 +56,7 @@ export function render(el) {
   unsub.forEach((u) => u()); unsub = [];
   const draw = () => {
     const an = analyse();
-    el.innerHTML = an.accts.length ? full(an) : intro();
+    el.innerHTML = an.accts.length ? full(an) : intro(an);
   };
   draw();
   if (getState().accounts.length && !cachedCatalogue()) loadCatalogue().then(() => { if (el.isConnected && location.hash.replace(/^#\/?/, "") === "") draw(); }).catch(() => {});
@@ -32,21 +66,21 @@ export function render(el) {
   unsub.push(on("state.changed", () => { if (location.hash.replace(/^#\/?/, "") === "" && el.isConnected) draw(); }));
 }
 
-function pieceCards(skipMap) {
-  return `<div class="grid-3">${PIECES.filter((p) => !(skipMap && p.n === 4)).map((p) => `<a class="piece" href="#/${p.path}">
-    <span class="piece-n">${tr("brikke", "piece")} ${p.n}</span><h3>${esc(pick(p.t))}</h3><p class="small muted">${esc(pick(p.d))}</p></a>`).join("")}</div>`;
+function pieceCards() {
+  return `<section class="section"><h2>${tr("Alle delene", "All the parts")}</h2><div class="grid-3 parts">${PIECES.map((p) => `<a class="piece" href="#/${p.path}">
+    <span class="piece-n">${p.n ? `${tr("brikke", "piece")} ${p.n}` : tr("les først", "read first")}</span><h3>${esc(pick(p.t))}</h3><p class="small muted">${esc(pick(p.d))}</p></a>`).join("")}</div></section>`;
 }
 
-function intro() {
+function intro(an) {
   return `<div class="wrap">
     <section class="hero">
       <p class="eyebrow">Selvrens</p>
       <h1>${tr("Se hele ditt digitale jeg.", "See your whole digital self.")}</h1>
       <p class="lede">${tr("Hvor har du kontoer? Hvor har dataene dine lekket? Hva viser du av deg selv, og hva blir bildet når alt legges sammen? Selvrens finner det ut sammen med deg, og hjelper deg å rydde.", "Where do you have accounts? Where has your data leaked? What do you show of yourself, and what picture does it make all together? Selvrens works it out with you, and helps you clean up.")}</p>
       <div class="promise"><span class="tag accent">${tr("Ingen konto", "No account")}</span><span class="tag accent">${tr("Lagres bare hos deg", "Stored only with you")}</span><span class="tag accent">${tr("Ingen sporing", "No tracking")}</span><span class="tag accent">${tr("Gratis og åpen kildekode", "Free and open source")}</span></div>
-      <div class="row"><a class="btn" href="#/kontoer">${tr("Start med kontoene dine", "Start with your accounts")}</a><a class="btn ghost" href="#/lekkasjer">${tr("Eller sjekk en e-post", "Or check an email")}</a></div>
     </section>
-    ${pieceCards(true)}
+    ${journey(an)}
+    ${pieceCards()}
     <section class="panel sunk">
       <p class="quote">${tr("«Selvrens er ikke en app. Det er en frigjøringsmekanisme.»", "«Selvrens is not an app. It is a liberation mechanism.»")}</p>
       <div class="prose small muted">
@@ -65,6 +99,7 @@ function full(an) {
       <p class="eyebrow">${tr("Ditt digitale jeg", "Your digital self")}</p>
       <h1>${tr(`${fmtNum(live)} kontoer. Dette er bildet.`, `${fmtNum(live)} accounts. This is the picture.`)}</h1>
     </section>
+    ${journey(an)}
     <div class="stats">
       <div class="stat"><b>${fmtNum(live)}</b><span>${tr("kontoer", "accounts")}</span></div>
       <div class="stat ${an.breachedAccts.length ? "danger" : "ok"}"><b>${an.breachedAccts.length}</b><span>${tr("hos hackede tjenester", "at breached services")}</span></div>
@@ -84,7 +119,7 @@ function full(an) {
           : `<p class="note">${tr("Ingenting haster. Fortsett å gå gjennom kontoene, og sjekk synligheten.", "Nothing urgent. Keep reviewing your accounts, and check your visibility.")}</p>`}
       </div>
     </section>
-    ${pieceCards(true)}
+    ${pieceCards()}
   </div>`;
 }
 
