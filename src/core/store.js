@@ -13,7 +13,7 @@ const fresh = () => ({
   profile: { names: "", usernames: "", emails: "", phones: "" },
   accounts: [],
   checks: { email: [] },      // results of email breach checks the user ran
-  done: { guides: {}, optout: [] },
+  done: { guides: {}, optout: [], finders: [], download: [], ai: [] },
   settings: { lang: null, theme: null, bonds: [], lifted: false },
 });
 
@@ -113,7 +113,13 @@ export function setTheme(t) { update((s) => (s.settings.theme = t), "settings.th
 // Accounts
 export function findDuplicate(a) {
   const login = (a.login || "").toLowerCase();
-  return state.accounts.find((x) => x.domain && x.domain === a.domain && (x.login || "").toLowerCase() === login);
+  const via = login.startsWith("via ");
+  return state.accounts.find((x) => {
+    const same = a.domain ? x.domain === a.domain : !x.domain && x.service.toLowerCase() === a.service.toLowerCase();
+    if (!same) return false;
+    // "via Google" style entries merge into any existing account at the same service
+    return via || (x.login || "").toLowerCase() === login || (x.login || "").toLowerCase().startsWith("via ");
+  });
 }
 
 export function addAccounts(list, source) {
@@ -125,6 +131,7 @@ export function addAccounts(list, source) {
       if (dup) {
         // keep the richer record: fill gaps, keep the worst leak count
         if (!dup.url && a.url) dup.url = a.url;
+        if ((dup.login || "").toLowerCase().startsWith("via ") && a.login && !a.login.toLowerCase().startsWith("via ")) dup.login = a.login;
         if (!dup.created && a.created) dup.created = a.created;
         if (a.lastUsed && (!dup.lastUsed || a.lastUsed > dup.lastUsed)) dup.lastUsed = a.lastUsed;
         if (a.pwned != null) dup.pwned = Math.max(dup.pwned || 0, a.pwned);

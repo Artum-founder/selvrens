@@ -84,4 +84,9 @@ export function download(filename, text, type = "application/json") {
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
 }
 
+// The "how to" box at the top of every piece: three plain steps anyone can follow.
+export function howto(steps, more) {
+  return `<div class="howto"><b>${tr("Slik gjør du det", "How to do it")}</b><ol>${steps.map((x) => `<li>${esc(pick(x))}</li>`).join("")}</ol>${more ? `<p class="small muted">${esc(pick(more))}</p>` : ""}</div>`;
+}
+
 export const isEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || "").trim());

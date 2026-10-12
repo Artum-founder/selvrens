@@ -177,4 +177,18 @@ export function lookup(domainOrUrl) {
   return { domain: d, name: label ? label.charAt(0).toUpperCase() + label.slice(1) : "", category: cat, del: "", known: false };
 }
 
+// Turn whatever someone typed ("Canva", "notion.so", "https://www.figma.com/login") into an account.
+export function fromText(text) {
+  const t = String(text || "").trim().replace(/^[-*•\s]+/, "");
+  if (!t) return null;
+  if (/[./]/.test(t)) {
+    const d = domainOf(t);
+    if (d && d.includes(".")) { const s = lookup(d); return { domain: d, name: s.name, category: s.category, known: s.known }; }
+  }
+  const low = t.toLowerCase();
+  const hit = LIST.find(([d, n]) => n.toLowerCase() === low || d.split(".")[0] === low);
+  if (hit) return { domain: hit[0], name: hit[1], category: hit[2], known: true };
+  return { domain: "", name: t.slice(0, 80), category: "other", known: false };
+}
+
 export const searchDeleteUrl = (name) => `https://duckduckgo.com/?q=${encodeURIComponent(`delete ${name} account`)}`;
