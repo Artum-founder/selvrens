@@ -1,6 +1,6 @@
 // Piece: Rens (Clean up). Guides, letters and opt-outs.
 import { getState, update } from "../core/store.js";
-import { tr, esc, pick, copyText, toast } from "../core/util.js";
+import { tr, esc, pick, copyText, toast, howto } from "../core/util.js";
 import { GUIDES } from "../data/guides.js";
 import { TEMPLATES, FIELD_LABELS } from "../data/templates.js";
 import { ADS, PHONE } from "../data/optout.js";
@@ -25,6 +25,11 @@ export function render(el, params) {
       <h1>${tr("Ta det tilbake, ett steg om gangen", "Take it back, one step at a time")}</h1>
       <p class="lede">${tr("Guider med avkrysning, ferdige brev med lovhjemmel, og lenkene som skrur av sporing.", "Guides you can tick off, ready letters citing the law, and the links that switch off tracking.")}</p>
     </div></div>
+    ${howto([
+      { no: "Velg en guide og kryss av stegene etter hvert.", en: "Pick a guide and tick the steps as you go." },
+      { no: "Finnes det ingen sletteknapp, bruk en brevmal. Den er ferdig skrevet med riktig lov.", en: "No delete button? Use a letter template. It is ready-written with the right law." },
+      { no: "Skru av reklame og sporing under Reklame og Telefon.", en: "Switch off ads and tracking under Ads and Phone." },
+    ])}
     <div class="tabs" role="tablist">${TABS.map(([k, l]) => `<button role="tab" aria-selected="${tab === k}" data-tab="${k}">${esc(pick(l))}</button>`).join("")}</div>
     <div id="tabbody"></div>
   </div>`;

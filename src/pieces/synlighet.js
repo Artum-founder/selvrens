@@ -1,7 +1,7 @@
 // Piece: Synlighet (Public self). What you show of yourself, across every account.
 import { getState, update, patchAccount, addAccounts, VIS_FIELDS } from "../core/store.js";
 import { on } from "../core/bus.js";
-import { tr, esc, pick, uid, toast } from "../core/util.js";
+import { tr, esc, pick, uid, toast, howto } from "../core/util.js";
 import { analyse, accountExposure, VIS_LABEL } from "../core/analysis.js";
 import { nameSearches, valueSearches, PROFILE_SITES } from "../data/finders.js";
 import { lookup } from "../data/services.js";
@@ -22,6 +22,11 @@ export function render(el, params) {
       <h1>${tr("Hva kan en fremmed sette sammen om deg?", "What can a stranger piece together about you?")}</h1>
       <p class="lede">${tr("Hver konto viser litt. Til sammen kan det bli et helt bilde. Her ser du begge deler.", "Each account shows a little. Together it can add up to a whole picture. Here you see both.")}</p>
     </div></div>
+    ${howto([
+      { no: "Skriv navnet og brukernavnene dine i feltene under.", en: "Type your name and usernames in the fields below." },
+      { no: "Åpne søkene og se hva som dukker opp om deg.", en: "Open the searches and see what comes up about you." },
+      { no: "For hver konto: åpne profilen din utlogget, og kryss av det en fremmed kan se.", en: "For each account: open your profile logged out, and tick what a stranger can see." },
+    ])}
     <div id="combined"></div>
     <section class="section">
       <div class="section-head"><div><h2>${tr("Søk etter deg selv", "Search for yourself")}</h2>

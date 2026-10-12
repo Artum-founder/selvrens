@@ -1,7 +1,8 @@
 // Piece: Lekkasjer (Leaks). Where you have been compromised.
-import { getState, update } from "../core/store.js";
+import { getState, update, addAccounts } from "../core/store.js";
 import { on } from "../core/bus.js";
-import { tr, esc, toast, fmtDate, fmtNum, isEmail } from "../core/util.js";
+import { tr, esc, toast, fmtDate, fmtNum, isEmail, howto, uid } from "../core/util.js";
+import { lookup } from "../data/services.js";
 import { loadCatalogue, cachedCatalogue, breachByName, pwnedCount, checkEmailXON, checkEmailHIBP, DATA_NO, dangerous } from "../core/leaks.js";
 import { analyse } from "../core/analysis.js";
 
@@ -19,6 +20,11 @@ export function render(el) {
       <h1>${tr("Hvor har dataene dine lekket?", "Where has your data leaked?")}</h1>
       <p class="lede">${tr("Tre sjekker: tjenestene du har konto hos mot listen over kjente datainnbrudd, e-postadressene dine, og enkeltpassord.", "Three checks: the services you have accounts with against the list of known breaches, your email addresses, and single passwords.")}</p>
     </div></div>
+    ${howto([
+      { no: "Skriv e-postadressen din under og trykk «Sjekk gratis».", en: "Type your email address below and press «Check free»." },
+      { no: "Se hvilke lekkasjer den er i. Legg nettstedene til i kontolisten med ett trykk: hver lekkasje er et sted du har hatt konto.", en: "See which leaks it is in. Add the sites to your account list with one click: every leak is a place you had an account." },
+      { no: "Bytt passord der det står «alvorlig», og slå på totrinnsinnlogging.", en: "Change the password wherever it says «serious», and turn on two-step login." },
+    ])}
 
     <section class="section">
       <div class="section-head"><div><h2>${tr("Kontoene dine mot kjente datainnbrudd", "Your accounts against known breaches")}</h2>
@@ -102,7 +108,7 @@ function renderEmailResults() {
     ${c.breaches.length ? `<p>${tr(`Funnet i ${c.breaches.length} lekkasjer:`, `Found in ${c.breaches.length} leaks:`)}</p>
       <div class="links">${c.breaches.slice(0, 60).map((n) => { const b = breachByName(cat, n); return `<span class="tag ${b && dangerous(b.dc) ? "danger" : "warn"}" title="${esc(b ? fmtDate(b.bd) + " · " + b.dc.join(", ") : "")}">${esc(b ? b.t || b.n : n)}</span>`; }).join("")}</div>`
       : `<p class="note">${tr("Ikke funnet i kjente lekkasjer.", "Not found in known leaks.")}</p>`}
-    <div class="row"><button class="btn quiet sm" data-forget="${list.length - 1 - idx}">${tr("Glem dette resultatet", "Forget this result")}</button></div>
+    <div class="row">${c.breaches.length ? `<button class="btn sm" data-addbreach="${list.length - 1 - idx}">${tr("Legg nettstedene til i kontolisten", "Add the sites to your account list")}</button>` : ""}<button class="btn quiet sm" data-forget="${list.length - 1 - idx}">${tr("Glem dette resultatet", "Forget this result")}</button></div>
   </div>`).join("");
 }
 
@@ -111,6 +117,23 @@ function bind() {
     const t = e.target.closest("button");
     if (!t) return;
     if (t.dataset.act === "refresh") return refresh(true);
+    if (t.dataset.addbreach != null) {
+      const c = getState().checks.email[+t.dataset.addbreach];
+      if (!c) return;
+      if (!cachedCatalogue()) { try { await loadCatalogue(); } catch {} }
+      const cat = cachedCatalogue();
+      const list = [];
+      let unknown = 0;
+      for (const n of c.breaches) {
+        const b = breachByName(cat, n);
+        if (!b || !b.d) { unknown++; continue; }
+        const svc = lookup(b.d);
+        list.push({ id: uid(), domain: svc.domain || b.d, service: svc.known ? svc.name : b.t || b.n, category: svc.category, login: c.email, source: "breach" });
+      }
+      const r = addAccounts(list, "breach");
+      toast(tr(`La til ${r.added} kontoer, ${r.merged} fantes fra før${unknown ? `, ${unknown} uten kjent nettsted` : ""}.`, `Added ${r.added} accounts, ${r.merged} already there${unknown ? `, ${unknown} without a known site` : ""}.`));
+      return;
+    }
     if (t.dataset.forget != null) { const i = +t.dataset.forget; update((s) => s.checks.email.splice(i, 1)); return; }
     if (t.dataset.act === "xon" || t.dataset.act === "hibp") {
       const email = document.getElementById("em").value.trim();
