@@ -19,6 +19,8 @@ Startsiden (Kart) viser én vei med én «Neste steg»-knapp, så ingen trenger 
 
 Hver side starter med en kort «Slik gjør du det»-boks med de tre tingene du skal gjøre der.
 
+Under Innstillinger kan du slå på rolig visning (ingen bevegelse), større tekst og mer luft. Guidene er laget med tanke på folk med ADHD og autisme: én ting om gangen, ingen overraskelser, og pause når du vil.
+
 ## Delene
 
 | Del | Hva den gjør |
@@ -27,7 +29,7 @@ Hver side starter med en kort «Slik gjør du det»-boks med de tre tingene du s
 | **2 Lekkasjer** | Sammenligner kontoene dine med den offentlige listen over kjente datainnbrudd, sjekker e-postadresser (gratis via XposedOrNot, offisielt via Have I Been Pwned når en nøkkel er lagt inn) og sjekker passord med k-anonymitet. Nettstedene en e-post har lekket fra, kan legges til i kontolisten med ett trykk, siden en lekkasje viser at du hadde konto der. |
 | **3 Synlighet** | Søkelenker for navn, brukernavn, e-poster og telefonnumre (søkemotorer, norske kataloger, profiladresser på over 20 plattformer, Wayback Machine), og en sjekkliste per konto over hva en fremmed kan se. Alt legges sammen til ett samlet bilde. |
 | **4 Dine data** | Direkte lenker for å be om en kopi av dataene dine fra Google Takeout, Meta, Apple, Microsoft, X, LinkedIn, TikTok, Snapchat, Spotify, Amazon, Netflix, Reddit og GitHub, med hvor lang tid det tar og hva du bør se etter i filene. |
-| **5 Rens** | Guider steg for steg, GDPR-brev (sletting, innsyn, sletting av konto, fjerning fra søk og av bilder), reservasjon mot reklame og personverninnstillinger på telefonen. |
+| **5 Rens** | Guider som viser ett steg om gangen (med tid, hva du trenger, hva du ser når det har virket og hva du gjør hvis siden ser annerledes ut), og som husker hvor du var. GDPR-brev (sletting, innsyn, sletting av konto, fjerning fra søk og av bilder), reservasjon mot reklame og personverninnstillinger på telefonen. |
 | **Hvorfor** | Hvorfor dette fortsatt betyr noe i KI-alderen: en profil av deg finnes allerede, men du kan velge hvordan du blir sett fra nå av. Med reservasjon mot KI-trening hos Meta, LinkedIn, X, Google Gemini, ChatGPT, Claude og PimEyes. |
 | **Kart** | Startsiden: veien over, et kart over alle kontoene etter kategori og risiko, og en prioritert liste over hva du bør gjøre først. |
 
@@ -92,7 +94,7 @@ Selvrens er fri programvare: du kan dele den videre og endre den under vilkåren
 
 **See your whole digital self.** Selvrens maps your accounts, where your data has leaked, and what you show of yourself online, then helps you clean up. No account, no tracking, everything stays in your own browser. The site is in Norwegian, with English one click away (the EN button).
 
-**How it works.** The start page shows one path with one «Next step» button: find your accounts, check for leaks, see what you show, decide for each account (keep, tidy, delete), clean up, and optionally get your data. Every page opens with a short three-step «How to do it» box.
+**How it works.** The start page shows one path with one «Next step» button: find your accounts, check for leaks, see what you show, decide for each account (keep, tidy, delete), clean up, and optionally get your data. Every page opens with a short three-step «How to do it» box. The guides show one step at a time and remember your place, with calm display, larger text and more spacing under Settings, designed with ADHD and autism in mind.
 
 **The parts.** 1 Kontoer (Accounts), 2 Lekkasjer (Leaks), 3 Synlighet (Visibility), 4 Dine data (Your data), 5 Rens (Clean up), Hvorfor (Why) and Kart (Map), as described in the Norwegian table above.
 
