@@ -2,7 +2,7 @@
 
 **Se hele ditt digitale jeg.** Selvrens kartlegger kontoene dine, hvor dataene dine har lekket, og hva du viser av deg selv på nett. Så hjelper den deg å rydde. Ingen konto, ingen sporing, alt lagres bare i din egen nettleser.
 
-Nettside: https://selvrens.no (inntil domenet er koblet til: https://selvrens.vercel.app)
+Nettside: https://selvrens.no
 
 *English below.*
 
