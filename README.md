@@ -44,7 +44,7 @@ Alt lagres i nettleserens `localStorage`. Du kan ta en kopi (gjerne låst med en
 - **E-postsjekk:** adressen går gjennom `/api/xon-email` (XposedOrNot) eller `/api/hibp-email` (Have I Been Pwned). Serveren verken logger eller lagrer den.
 - **Lekkasjekatalogen:** `/api/breaches` henter den offentlige listen over datainnbrudd. Ingenting personlig sendes.
 
-Ingen informasjonskapsler, ingen analyse, ingen skript eller fonter fra andre. En streng Content Security Policy er satt i `vercel.json`.
+Ingen informasjonskapsler, ingen analyse, ingen skript eller fonter fra andre. Siden «Personvern», lenket nederst på hver side, forklarer dette for besøkende. En streng Content Security Policy er satt i `vercel.json`.
 
 ### Hvorfor ingen søking i lekkede databaser
 
