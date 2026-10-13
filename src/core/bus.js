@@ -1,5 +1,4 @@
-// The piece's inner event bus. Modules publish here; the SOL border (src/sol/border.js)
-// listens and forwards only what an active bond allows.
+// The app's inner event bus. Modules publish here; the shell and the pages listen.
 const subs = new Map();
 
 export function on(topic, fn) {

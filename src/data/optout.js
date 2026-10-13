@@ -1,5 +1,4 @@
-// Advertising opt-out links (carried over from the 2025 Manus build, updated) and phone settings
-// (from Peder's Sol Archive entry E014 on shadow logging).
+// Advertising opt-out links (carried over from the 2025 Manus build, updated) and phone settings.
 export const ADS = [
   { id: "yoc", label: "Your Online Choices (Norge / EU)", url: "https://www.youronlinechoices.com/nor/dine-valg", no: "Velg bort tilpasset reklame fra annonsenettverk i Europa.", en: "Opt out of tailored ads from European ad networks." },
   { id: "google", label: "Google My Ad Center", url: "https://myadcenter.google.com/", no: "Skru av tilpassede annonser hos Google og YouTube.", en: "Turn off personalised ads on Google and YouTube." },

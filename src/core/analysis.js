@@ -101,20 +101,3 @@ export function actions(an = analyse()) {
   }
   return out.sort((x, y) => y.lvl - x.lvl);
 }
-
-// A safe summary for the SOL border: counts only, no names, logins or domains.
-export function summary() {
-  const an = analyse();
-  return {
-    accounts: an.accts.filter(live).length,
-    breachedServices: an.breachedAccts.length,
-    reusedPasswordGroups: an.reuseGroups.length,
-    knownLeakedPasswords: an.pwnedAccts.length,
-    markedForDeletion: an.toDelete.length,
-    deleted: an.deleted.length,
-    unreviewed: an.unreviewed.length,
-    publicItems: an.publicItems,
-    exposureScore: an.combined,
-    emailChecksWithHits: an.emailHits.length,
-  };
-}

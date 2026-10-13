@@ -2,7 +2,7 @@
 import { getState, getLang, setLang, setTheme } from "./core/store.js";
 import { on } from "./core/bus.js";
 import { tr, esc, pick } from "./core/util.js";
-import { startBorder, PIECE } from "./sol/border.js";
+export const VERSION = "0.3.0";
 import * as kart from "./pieces/kart.js";
 import * as kontoer from "./pieces/kontoer.js";
 import * as lekkasjer from "./pieces/lekkasjer.js";
@@ -41,13 +41,11 @@ function renderNav() {
 }
 
 function renderFoot() {
-  const s = getState();
-  const bonds = (s.settings.bonds || []).filter((b) => b.state === "bonded").length;
   document.getElementById("foot").innerHTML = `<div class="wrap">
     <div class="foot-row"><b>${tr("Alt lagres bare i denne nettleseren.", "Everything stays in this browser.")}</b>
     <span>${tr("Ingen konto. Ingen sporing. Ingen informasjonskapsler.", "No account. No tracking. No cookies.")}</span></div>
     <div class="foot-row">
-      <span>${tr("SOL-brikke", "SOL piece")} ${esc(PIECE.version)} · ${bonds ? tr(`${bonds} bånd`, `${bonds} bond(s)`) : tr("frittstående", "standalone")}${s.settings.lifted ? tr(" · løftet for reparasjon", " · lifted for repair") : ""}</span>
+      <span>Selvrens ${esc(VERSION)}</span>
       <a href="https://github.com/Artum-founder/selvrens" rel="noopener">${tr("Åpen kildekode", "Open source")} (AGPL-3.0)</a>
       <span>${tr("Lekkasjedata", "Breach data")}: <a href="https://haveibeenpwned.com/" rel="noopener">Have I Been Pwned</a> (CC BY 4.0), <a href="https://xposedornot.com/" rel="noopener">XposedOrNot</a></span>
     </div></div>`;
@@ -68,10 +66,8 @@ document.getElementById("theme").addEventListener("click", () => {
 on("settings.lang", () => { route(); renderFoot(); });
 on("settings.theme", applyTheme);
 on("state.replaced", () => { applyTheme(); route(); renderFoot(); });
-on("sol.bond.added", renderFoot); on("sol.bond.state", renderFoot); on("sol.bond.cut", renderFoot); on("sol.lift", renderFoot);
 window.addEventListener("hashchange", route);
 
 applyTheme();
-startBorder();
 route();
 renderFoot();
