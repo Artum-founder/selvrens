@@ -13,8 +13,8 @@ const fresh = () => ({
   profile: { names: "", usernames: "", emails: "", phones: "" },
   accounts: [],
   checks: { email: [] },      // results of email breach checks the user ran
-  done: { guides: {}, optout: [], finders: [], download: [], ai: [] },
-  settings: { lang: null, theme: null },
+  done: { guides: {}, guidePos: null, optout: [], finders: [], download: [], ai: [] },
+  settings: { lang: null, theme: null, calm: false, bigText: false, airy: false },
 });
 
 let storageOK = true;
@@ -38,7 +38,10 @@ function migrate(s) {
   out.profile = { ...base.profile, ...(s.profile || {}) };
   out.checks = { ...base.checks, ...(s.checks || {}) };
   out.done = { ...base.done, ...(s.done || {}) };
-  out.settings = { lang: s.settings?.lang ?? null, theme: s.settings?.theme ?? null };
+  // Guide progress is kept by step id since 0.4.0; older numeric entries are dropped.
+  out.done.guides = Object.fromEntries(Object.entries(out.done.guides || {}).map(([k, v]) => [k, (Array.isArray(v) ? v : []).filter((x) => typeof x === "string")]));
+  const st = s.settings || {};
+  out.settings = { lang: st.lang ?? null, theme: st.theme ?? null, calm: !!st.calm, bigText: !!st.bigText, airy: !!st.airy };
   out.accounts = Array.isArray(s.accounts) ? s.accounts.map(normalizeAccount) : [];
   out.schema = SCHEMA;
   return out;
@@ -108,6 +111,8 @@ export function getLang() {
 }
 export function setLang(l) { update((s) => (s.settings.lang = l), "settings.lang"); }
 export function setTheme(t) { update((s) => (s.settings.theme = t), "settings.theme"); }
+// Comfort settings: calm (no motion), bigText, airy (more spacing).
+export function setComfort(key, on) { update((s) => (s.settings[key] = !!on), "settings.comfort"); }
 
 // Accounts
 export function findDuplicate(a) {
