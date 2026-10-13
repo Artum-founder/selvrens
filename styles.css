@@ -314,3 +314,8 @@ html.big-text body { font-size: 18px; }
 html.airy body { line-height: 1.8; letter-spacing: .012em; word-spacing: .06em; }
 html.airy .wrap { gap: 38px; }
 html.airy .stack, html.airy .steps, html.airy .list { gap: 14px; }
+
+/* Privacy page */
+.privacy { max-width: 820px; }
+.plain-list { margin: 0; padding-left: 1.2em; display: grid; gap: 8px; }
+.foot-row a { white-space: nowrap; }

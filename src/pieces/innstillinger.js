@@ -59,6 +59,7 @@ export function render(el) {
         <p>${tr("Hva som forlater nettleseren, og når: de 5 første tegnene av en passord-hash (passordsjekk), e-postadressen din (bare når du selv kjører en e-postsjekk), og en forespørsel om den offentlige listen over datainnbrudd. Ingenting annet.", "What leaves the browser, and when: the first 5 characters of a password hash (password check), your email address (only when you run an email check yourself), and a request for the public list of breaches. Nothing else.")}</p>
         <p>${tr("Lekkasjedata fra", "Breach data from")} <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener">Have I Been Pwned</a> (CC BY 4.0) ${tr("og", "and")} <a href="https://xposedornot.com/" target="_blank" rel="noopener">XposedOrNot</a>. ${tr("Kildekoden", "Source code")}: <a href="https://github.com/Artum-founder/selvrens" target="_blank" rel="noopener">github.com/Artum-founder/selvrens</a> (${tr("lisens", "license")}: <a href="https://github.com/Artum-founder/selvrens/blob/main/LICENSE" target="_blank" rel="noopener">AGPL-3.0</a>).</p>
       </div>
+      <p class="small"><a href="#/personvern">${tr("Personvern: Selvrens lagrer ingenting om deg", "Privacy: Selvrens stores nothing about you")} →</a></p>
     </section>
   </div>`;
   bind();

@@ -2,7 +2,7 @@
 import { getState, getLang, setLang, setTheme, update } from "./core/store.js";
 import { on } from "./core/bus.js";
 import { tr, esc, pick } from "./core/util.js";
-export const VERSION = "0.4.0";
+export const VERSION = "0.4.1";
 import * as kart from "./pieces/kart.js";
 import * as kontoer from "./pieces/kontoer.js";
 import * as lekkasjer from "./pieces/lekkasjer.js";
@@ -12,8 +12,9 @@ import * as rens from "./pieces/rens.js";
 import { currentGuide } from "./pieces/rens.js";
 import * as hvorfor from "./pieces/hvorfor.js";
 import * as innstillinger from "./pieces/innstillinger.js";
+import * as personvern from "./pieces/personvern.js";
 
-export const PIECES = [kart, kontoer, lekkasjer, synlighet, data, rens, hvorfor, innstillinger];
+export const PIECES = [kart, kontoer, lekkasjer, synlighet, data, rens, hvorfor, innstillinger, personvern];
 
 const main = document.getElementById("main");
 let current = null;
@@ -36,7 +37,7 @@ function route() {
 
 function renderNav() {
   const nav = document.getElementById("nav");
-  nav.innerHTML = PIECES.map((p) => `<a href="#/${p.meta.path}" ${current === p ? 'aria-current="page"' : ""}>${esc(pick(p.meta.title))}</a>`).join("");
+  nav.innerHTML = PIECES.filter((p) => !p.meta.hidden).map((p) => `<a href="#/${p.meta.path}" ${current === p ? 'aria-current="page"' : ""}>${esc(pick(p.meta.title))}</a>`).join("");
   document.getElementById("lang").textContent = getLang() === "en" ? "NO" : "EN";
   document.getElementById("lang").setAttribute("aria-label", getLang() === "en" ? "Bytt til norsk" : "Switch to English");
   document.documentElement.lang = getLang() === "en" ? "en" : "no";
@@ -57,8 +58,9 @@ function renderGuidebar(focus) {
 
 function renderFoot() {
   document.getElementById("foot").innerHTML = `<div class="wrap">
-    <div class="foot-row"><b>${tr("Alt lagres bare i denne nettleseren.", "Everything stays in this browser.")}</b>
-    <span>${tr("Ingen konto. Ingen sporing. Ingen informasjonskapsler.", "No account. No tracking. No cookies.")}</span></div>
+    <div class="foot-row"><b>${tr("Selvrens lagrer ingenting om deg.", "Selvrens stores nothing about you.")}</b>
+    <span>${tr("Det du skriver inn, blir bare i din egen nettleser. Ingen konto, ingen sporing, ingen informasjonskapsler.", "What you type stays only in your own browser. No account, no tracking, no cookies.")}</span>
+    <a href="#/personvern">${tr("Les mer om personvern", "Read more about privacy")}</a></div>
     <div class="foot-row">
       <span>Selvrens ${esc(VERSION)}</span>
       <a href="https://github.com/Artum-founder/selvrens" rel="noopener">${tr("Åpen kildekode", "Open source")} (AGPL-3.0)</a>
