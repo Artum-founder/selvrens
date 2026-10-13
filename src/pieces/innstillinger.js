@@ -1,5 +1,5 @@
 // Page: Innstillinger (Settings). Your data, language and theme.
-import { getState, replaceState, wipe, setLang, setTheme, getLang } from "../core/store.js";
+import { getState, replaceState, wipe, setLang, setTheme, getLang, setComfort } from "../core/store.js";
 import { on } from "../core/bus.js";
 import { tr, esc, toast, download, fmtDate } from "../core/util.js";
 import { exportState, importState, isLocked } from "../core/vault.js";
@@ -15,7 +15,7 @@ export function render(el) {
   el.innerHTML = `<div class="wrap">
     <div class="section-head"><div>
       <p class="eyebrow">${tr("Innstillinger", "Settings")}</p>
-      <h1>${tr("Dine data, språk og tema", "Your data, language and theme")}</h1>
+      <h1>${tr("Dine data, språk og visning", "Your data, language and display")}</h1>
     </div></div>
 
     <section class="grid-2">
@@ -37,6 +37,18 @@ export function render(el) {
         <h3>${tr("Slett alt", "Erase everything")}</h3>
         <p class="small muted">${tr("Fjerner alle kontoer, sjekker og innstillinger fra denne nettleseren. Kan ikke angres.", "Removes all accounts, checks and settings from this browser. Cannot be undone.")}</p>
         <div class="row"><button class="btn quiet sm" data-act="wipe">${tr("Slett alt", "Erase everything")}</button><button class="btn danger sm" data-act="wipe-yes" hidden>${tr("Ja, slett alt nå", "Yes, erase it all now")}</button></div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="comfort-h">
+      <h2 id="comfort-h">${tr("Ro og lesbarhet", "Calm and readability")}</h2>
+      <p class="small muted">${tr("Velg det som gjør det lettere for deg. Valgene gjelder hele Selvrens og lagres bare i denne nettleseren.", "Pick what makes it easier for you. The choices apply to all of Selvrens and are saved only in this browser.")}</p>
+      <div class="comfort">
+        ${[
+          ["calm", tr("Rolig visning", "Calm display"), tr("Ingen bevegelse eller glød. Alt står stille.", "No movement or glow. Everything stays still.")],
+          ["bigText", tr("Større tekst", "Larger text"), tr("All tekst blir omtrent en femtedel større.", "All text gets about a fifth larger.")],
+          ["airy", tr("Mer luft", "More space"), tr("Mer avstand mellom linjer, ord og bokstaver.", "More space between lines, words and letters.")],
+        ].map(([k, l, d]) => `<label class="check comfort-opt"><input type="checkbox" data-comfort="${k}" ${s.settings[k] ? "checked" : ""}><span><b>${l}</b><span class="small muted">${d}</span></span></label>`).join("")}
       </div>
     </section>
 
@@ -71,6 +83,7 @@ function bind() {
   };
   root.onchange = async (e) => {
     const t = e.target;
+    if (t.dataset.comfort) return setComfort(t.dataset.comfort, t.checked);
     if (t.id === "imp" && t.files[0]) {
       pendingImport = await t.files[0].text();
       t.value = "";
