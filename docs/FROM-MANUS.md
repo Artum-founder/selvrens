@@ -16,6 +16,6 @@ This repository is a rebuild from scratch around a wider idea: map your whole di
 
 Left behind on purpose:
 
-- **The DeHashed check.** It needs a paid key and a proxy that was never built. Email checks now go through XposedOrNot (free) and Have I Been Pwned (when a key is set).
+- **The DeHashed check.** It needs a paid key and a proxy that was never built. Email checks now go straight from the browser to XposedOrNot (free), with a link to Have I Been Pwned.
 - **The simulated email-domain check.** It returned made-up results.
 - **The visibility questionnaire.** It is replaced by a per-account checklist that adds up into one combined picture.

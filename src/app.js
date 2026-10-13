@@ -2,7 +2,7 @@
 import { getState, getLang, setLang, setTheme, update } from "./core/store.js";
 import { on } from "./core/bus.js";
 import { tr, esc, pick } from "./core/util.js";
-export const VERSION = "0.4.1";
+export const VERSION = "0.5.0";
 import * as kart from "./pieces/kart.js";
 import * as kontoer from "./pieces/kontoer.js";
 import * as lekkasjer from "./pieces/lekkasjer.js";
