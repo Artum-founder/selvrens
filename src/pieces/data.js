@@ -11,7 +11,7 @@ export function render(el) {
   root = el;
   el.innerHTML = `<div class="wrap">
     <div class="section-head"><div>
-      <p class="eyebrow">${tr("Brikke 4 · Dine data", "Piece 4 · Your data")}</p>
+      <p class="eyebrow">${tr("Del 4 · Dine data", "Part 4 · Your data")}</p>
       <h1>${tr("Se hva de har lagret om deg", "See what they have stored about you")}</h1>
       <p class="lede">${tr("Alle store tjenester må gi deg en kopi av dataene dine, gratis. Filene viser ofte mer enn du tror: gamle kontoer, enheter, reklameprofilen din og andre nettsteder som har delt data om deg.", "Every big service must give you a copy of your data, for free. The files often show more than you expect: old accounts, devices, your ad profile, and other sites that shared data about you.")}</p>
     </div></div>

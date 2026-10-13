@@ -16,7 +16,7 @@ export function render(el) {
   const emails = getState().profile.emails.split(/[,\s]+/).filter(isEmail);
   el.innerHTML = `<div class="wrap">
     <div class="section-head"><div>
-      <p class="eyebrow">${tr("Brikke 2 · Lekkasjer", "Piece 2 · Leaks")}</p>
+      <p class="eyebrow">${tr("Del 2 · Lekkasjer", "Part 2 · Leaks")}</p>
       <h1>${tr("Hvor har dataene dine lekket?", "Where has your data leaked?")}</h1>
       <p class="lede">${tr("Tre sjekker: tjenestene du har konto hos mot listen over kjente datainnbrudd, e-postadressene dine, og enkeltpassord.", "Three checks: the services you have accounts with against the list of known breaches, your email addresses, and single passwords.")}</p>
     </div></div>

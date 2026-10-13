@@ -133,7 +133,7 @@ export function render(el, params) {
   if (params[0]) open.add(params[0]);
   el.innerHTML = `<div class="wrap">
     <div class="section-head"><div>
-      <p class="eyebrow">${tr("Brikke 1 · Kontoer", "Piece 1 · Accounts")}</p>
+      <p class="eyebrow">${tr("Del 1 · Kontoer", "Part 1 · Accounts")}</p>
       <h1>${tr("Alle kontoene dine, på ett sted", "All your accounts, in one place")}</h1>
       <p class="lede">${tr("Hent dem fra passordbehandleren, finn de glemte i innboksen, eller legg dem til selv. Ingenting forlater nettleseren din.", "Pull them from your password manager, find the forgotten ones in your inbox, or add them yourself. Nothing leaves your browser.")}</p>
     </div></div>

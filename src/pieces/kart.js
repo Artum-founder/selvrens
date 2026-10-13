@@ -68,7 +68,7 @@ export function render(el) {
 
 function pieceCards() {
   return `<section class="section"><h2>${tr("Alle delene", "All the parts")}</h2><div class="grid-3 parts">${PIECES.map((p) => `<a class="piece" href="#/${p.path}">
-    <span class="piece-n">${p.n ? `${tr("brikke", "piece")} ${p.n}` : tr("les først", "read first")}</span><h3>${esc(pick(p.t))}</h3><p class="small muted">${esc(pick(p.d))}</p></a>`).join("")}</div></section>`;
+    <span class="piece-n">${p.n ? `${tr("del", "part")} ${p.n}` : tr("les først", "read first")}</span><h3>${esc(pick(p.t))}</h3><p class="small muted">${esc(pick(p.d))}</p></a>`).join("")}</div></section>`;
 }
 
 function intro(an) {

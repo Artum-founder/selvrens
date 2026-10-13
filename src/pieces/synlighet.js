@@ -18,7 +18,7 @@ export function render(el, params) {
   const p = getState().profile;
   el.innerHTML = `<div class="wrap">
     <div class="section-head"><div>
-      <p class="eyebrow">${tr("Brikke 3 · Synlighet", "Piece 3 · Visibility")}</p>
+      <p class="eyebrow">${tr("Del 3 · Synlighet", "Part 3 · Visibility")}</p>
       <h1>${tr("Hva kan en fremmed sette sammen om deg?", "What can a stranger piece together about you?")}</h1>
       <p class="lede">${tr("Hver konto viser litt. Til sammen kan det bli et helt bilde. Her ser du begge deler.", "Each account shows a little. Together it can add up to a whole picture. Here you see both.")}</p>
     </div></div>

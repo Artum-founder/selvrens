@@ -21,7 +21,7 @@ export function render(el, params) {
   if (params[0] && TABS.some(([k]) => k === params[0])) tab = params[0];
   el.innerHTML = `<div class="wrap">
     <div class="section-head"><div>
-      <p class="eyebrow">${tr("Brikke 5 · Rens", "Piece 5 · Clean up")}</p>
+      <p class="eyebrow">${tr("Del 5 · Rens", "Part 5 · Clean up")}</p>
       <h1>${tr("Ta det tilbake, ett steg om gangen", "Take it back, one step at a time")}</h1>
       <p class="lede">${tr("Guider med avkrysning, ferdige brev med lovhjemmel, og lenkene som skrur av sporing.", "Guides you can tick off, ready letters citing the law, and the links that switch off tracking.")}</p>
     </div></div>
