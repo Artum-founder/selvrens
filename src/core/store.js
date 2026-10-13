@@ -14,7 +14,7 @@ const fresh = () => ({
   accounts: [],
   checks: { email: [] },      // results of email breach checks the user ran
   done: { guides: {}, optout: [], finders: [], download: [], ai: [] },
-  settings: { lang: null, theme: null, bonds: [], lifted: false },
+  settings: { lang: null, theme: null },
 });
 
 let storageOK = true;
@@ -38,7 +38,7 @@ function migrate(s) {
   out.profile = { ...base.profile, ...(s.profile || {}) };
   out.checks = { ...base.checks, ...(s.checks || {}) };
   out.done = { ...base.done, ...(s.done || {}) };
-  out.settings = { ...base.settings, ...(s.settings || {}) };
+  out.settings = { lang: s.settings?.lang ?? null, theme: s.settings?.theme ?? null };
   out.accounts = Array.isArray(s.accounts) ? s.accounts.map(normalizeAccount) : [];
   out.schema = SCHEMA;
   return out;
@@ -103,9 +103,8 @@ export function wipe() {
 
 // Language and theme
 export function getLang() {
-  if (state.settings.lang) return state.settings.lang;
-  const nav = (navigator.language || "nb").toLowerCase();
-  return /^(nb|nn|no|da|sv)/.test(nav) ? "no" : "en";
+  // Norwegian first: English only when the visitor picks it.
+  return state.settings.lang === "en" ? "en" : "no";
 }
 export function setLang(l) { update((s) => (s.settings.lang = l), "settings.lang"); }
 export function setTheme(t) { update((s) => (s.settings.theme = t), "settings.theme"); }
